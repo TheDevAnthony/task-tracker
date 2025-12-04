@@ -1,0 +1,153 @@
+package main
+
+import (
+	"errors"
+	"fmt"
+	"strconv"
+	"strings"
+	"time"
+)
+
+func AddTask(desc string) error {
+	if strings.TrimSpace(desc) == "" {
+		return errors.New("description cannot be empty")
+	}
+
+	task := Task{
+		ID:          len(tasks) + 1,
+		Description: desc,
+		Status:      StatusPending,
+		CreatedAt:   time.Now(),
+		UpdatedAt:   time.Now(),
+	}
+
+	tasks = append(tasks, task)
+	fmt.Printf("Added task: %d - %s\n", task.ID, task.Description)
+
+	return nil
+}
+
+func UpdateTask(str_id string, desc string) error {
+	id, err := strconv.Atoi(str_id)
+	if err != nil {
+		return errors.New("invalid task ID")
+	}
+
+	if strings.TrimSpace(desc) == "" {
+		return errors.New("description cannot be empty")
+	}
+
+	for i, task := range tasks {
+		if task.ID == id {
+			tasks[i].Description = desc
+			tasks[i].UpdatedAt = time.Now()
+			fmt.Printf("Updated task: %d - %s\n", tasks[i].ID, tasks[i].Description)
+			return nil
+		}
+	}
+	return errors.New("task not found")
+}
+
+func DeleteTask(str_id string) error {
+	id, err := strconv.Atoi(str_id)
+	if err != nil {
+		return errors.New("invalid task ID")
+	}
+
+	for i, task := range tasks {
+		if task.ID == id {
+			tasks = append(tasks[:i], tasks[i+1:]...)
+			fmt.Printf("Deleted task: %d\n", id)
+			return nil
+		}
+	}
+	return errors.New("task not found")
+}
+
+func MarkInProgress(str_id string) error {
+	id, err := strconv.Atoi(str_id)
+	if err != nil {
+		return errors.New("invalid task ID")
+	}
+
+	for i, task := range tasks {
+		if task.ID == id {
+			tasks[i].Status = StatusInProgress
+			tasks[i].UpdatedAt = time.Now()
+			fmt.Printf("Marked task as in-progress: %d\n", tasks[i].ID)
+			return nil
+		}
+	}
+	return errors.New("task not found")
+}
+
+func MarkCompleted(str_id string) error {
+	id, err := strconv.Atoi(str_id)
+	if err != nil {
+		return errors.New("invalid task ID")
+	}
+
+	for i, task := range tasks {
+		if task.ID == id {
+			tasks[i].Status = StatusCompleted
+			tasks[i].UpdatedAt = time.Now()
+			fmt.Printf("Marked task as completed: %d\n", tasks[i].ID)
+			return nil
+		}
+	}
+	return errors.New("task not found")
+}
+
+func ListTasks(status *string) error {
+	var st string
+	if status != nil {
+		st = *status
+	} else {
+		st = "all"
+	}
+
+	switch st {
+	case "all":
+		fmt.Println("Listing all tasks:")
+		for _, task := range tasks {
+			fmt.Printf("%d - %s [%d]\n", task.ID, task.Description, task.Status)
+		}
+	case "pending":
+		fmt.Println("Listing pending tasks:")
+		for _, task := range tasks {
+			if task.Status == StatusPending {
+				fmt.Printf("%d - %s [%d]\n", task.ID, task.Description, task.Status)
+			}
+		}
+	case "in-progress":
+		fmt.Println("Listing in-progress tasks:")
+		for _, task := range tasks {
+			if task.Status == StatusInProgress {
+				fmt.Printf("%d - %s [%d]\n", task.ID, task.Description, task.Status)
+			}
+		}
+	case "completed":
+		fmt.Println("Listing completed tasks:")
+		for _, task := range tasks {
+			if task.Status == StatusCompleted {
+				fmt.Printf("%d - %s [%d]\n", task.ID, task.Description, task.Status)
+			}
+		}
+	default:
+		return errors.New("invalid status filter")
+	}
+	return nil
+}
+
+func PrintHelp() {
+	fmt.Println(`task tracker cli - A simple task management CLI tool
+
+Usage:
+  taskcli add <description>               Add a new task
+  taskcli update <id> <new_description>   Update an existing task
+  taskcli delete <id>                     Delete a task
+  taskcli mark-in-progress <id>           Mark a task as in-progress
+  taskcli mark-completed <id>             Mark a task as completed
+  taskcli list [status]                   List tasks, optionally filtered by status (pending, in-progress, completed)
+  taskcli help                            Show this help message`)
+}
