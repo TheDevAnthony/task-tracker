@@ -3,14 +3,15 @@ package main
 import (
 	"errors"
 	"fmt"
+	"log"
 	"strconv"
 	"strings"
 	"time"
 )
 
-func AddTask(desc string) error {
+func AddTask(desc string) {
 	if strings.TrimSpace(desc) == "" {
-		return errors.New("description cannot be empty")
+		log.Fatal("description cannot be empty")
 	}
 
 	task := Task{
@@ -24,17 +25,19 @@ func AddTask(desc string) error {
 	tasks = append(tasks, task)
 	fmt.Printf("Added task: %d - %s\n", task.ID, task.Description)
 
-	return SaveTasks()
+	if err := SaveTasks(); err != nil {
+		log.Fatalf("failed to save tasks: %v", err)
+	}
 }
 
-func UpdateTask(str_id string, desc string) error {
+func UpdateTask(str_id string, desc string) {
 	id, err := strconv.Atoi(str_id)
 	if err != nil {
-		return errors.New("invalid task ID")
+		log.Fatal("invalid task ID")
 	}
 
 	if strings.TrimSpace(desc) == "" {
-		return errors.New("description cannot be empty")
+		log.Fatal("description cannot be empty")
 	}
 
 	for i, task := range tasks {
@@ -42,32 +45,36 @@ func UpdateTask(str_id string, desc string) error {
 			tasks[i].Description = desc
 			tasks[i].UpdatedAt = time.Now()
 			fmt.Printf("Updated task: %d - %s\n", tasks[i].ID, tasks[i].Description)
-			return SaveTasks()
+			if err := SaveTasks(); err != nil {
+				log.Fatalf("failed to save tasks: %v", err)
+			}
 		}
 	}
-	return errors.New("task not found")
+	log.Fatal("task not found")
 }
 
-func DeleteTask(str_id string) error {
+func DeleteTask(str_id string) {
 	id, err := strconv.Atoi(str_id)
 	if err != nil {
-		return errors.New("invalid task ID")
+		log.Fatal("invalid task ID")
 	}
 
 	for i, task := range tasks {
 		if task.ID == id {
 			tasks = append(tasks[:i], tasks[i+1:]...)
 			fmt.Printf("Deleted task: %d\n", id)
-			return SaveTasks()
+			if err := SaveTasks(); err != nil {
+				log.Fatalf("failed to save tasks: %v", err)
+			}
 		}
 	}
-	return errors.New("task not found")
+	log.Fatal("task not found")
 }
 
-func MarkInProgress(str_id string) error {
+func MarkInProgress(str_id string) {
 	id, err := strconv.Atoi(str_id)
 	if err != nil {
-		return errors.New("invalid task ID")
+		log.Fatal("invalid task ID")
 	}
 
 	for i, task := range tasks {
@@ -75,16 +82,18 @@ func MarkInProgress(str_id string) error {
 			tasks[i].Status = StatusInProgress
 			tasks[i].UpdatedAt = time.Now()
 			fmt.Printf("Marked task as in-progress: %d\n", tasks[i].ID)
-			return SaveTasks()
+			if err := SaveTasks(); err != nil {
+				log.Fatalf("failed to save tasks: %v", err)
+			}
 		}
 	}
-	return errors.New("task not found")
+	log.Fatal("task not found")
 }
 
-func MarkCompleted(str_id string) error {
+func MarkCompleted(str_id string) {
 	id, err := strconv.Atoi(str_id)
 	if err != nil {
-		return errors.New("invalid task ID")
+		log.Fatal("invalid task ID")
 	}
 
 	for i, task := range tasks {
@@ -92,13 +101,15 @@ func MarkCompleted(str_id string) error {
 			tasks[i].Status = StatusCompleted
 			tasks[i].UpdatedAt = time.Now()
 			fmt.Printf("Marked task as completed: %d\n", tasks[i].ID)
-			return SaveTasks()
+			if err := SaveTasks(); err != nil {
+				log.Fatalf("failed to save tasks: %v", err)
+			}
 		}
 	}
-	return errors.New("task not found")
+	log.Fatal("task not found")
 }
 
-func ListTasks(status *string) error {
+func ListTasks(status *string) {
 	var st string
 	if status != nil {
 		st = *status
@@ -146,9 +157,8 @@ func ListTasks(status *string) error {
 			fmt.Println("No tasks found.")
 		}
 	default:
-		return errors.New("invalid status filter")
+		log.Fatal(errors.New("invalid status filter"))
 	}
-	return nil
 }
 
 func PrintHelp() {
