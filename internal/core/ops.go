@@ -48,6 +48,7 @@ func UpdateTask(str_id string, desc string) {
 			if err := SaveTasks(); err != nil {
 				log.Fatalf("failed to save tasks: %v", err)
 			}
+			return
 		}
 	}
 	log.Fatal("task not found")
@@ -66,6 +67,7 @@ func DeleteTask(str_id string) {
 			if err := SaveTasks(); err != nil {
 				log.Fatalf("failed to save tasks: %v", err)
 			}
+			return
 		}
 	}
 	log.Fatal("task not found")
@@ -85,6 +87,7 @@ func MarkInProgress(str_id string) {
 			if err := SaveTasks(); err != nil {
 				log.Fatalf("failed to save tasks: %v", err)
 			}
+			return
 		}
 	}
 	log.Fatal("task not found")
@@ -104,6 +107,7 @@ func MarkCompleted(str_id string) {
 			if err := SaveTasks(); err != nil {
 				log.Fatalf("failed to save tasks: %v", err)
 			}
+			return
 		}
 	}
 	log.Fatal("task not found")
