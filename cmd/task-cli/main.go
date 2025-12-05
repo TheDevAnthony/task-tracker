@@ -3,6 +3,8 @@ package main
 import (
 	"log"
 	"os"
+
+	"github.com/TheDevAnthony/task-tracker/internal/core"
 )
 
 func main() {
@@ -10,7 +12,7 @@ func main() {
 		log.Fatal("No command provided. Use 'help' to see available commands.")
 	}
 
-	if err := LoadTasks(); err != nil {
+	if err := core.LoadTasks(); err != nil {
 		log.Fatalf("Error loading tasks: %v", err)
 	}
 
@@ -22,35 +24,35 @@ func main() {
 		if len(args) < 1 {
 			log.Fatal("Invalid command. Usage: add <description>")
 		}
-		AddTask(args[0])
+		core.AddTask(args[0])
 	case "update":
 		if len(args) < 2 {
 			log.Fatal("Invalid command. Usage: update <id> <new description>")
 		}
-		UpdateTask(args[0], args[1])
+		core.UpdateTask(args[0], args[1])
 	case "delete":
 		if len(args) < 1 {
 			log.Fatal("Invalid command. Usage: delete <id>")
 		}
-		DeleteTask(args[0])
+		core.DeleteTask(args[0])
 	case "mark-in-progress":
 		if len(args) < 1 {
 			log.Fatal("Invalid command. Usage: mark-in-progress <id>")
 		}
-		MarkInProgress(args[0])
+		core.MarkInProgress(args[0])
 	case "mark-completed":
 		if len(args) < 1 {
 			log.Fatal("Invalid command. Usage: mark-completed <id>")
 		}
-		MarkCompleted(args[0])
+		core.MarkCompleted(args[0])
 	case "list":
 		var status *string
 		if len(args) >= 1 {
 			status = &args[0]
 		}
-		ListTasks(status)
+		core.ListTasks(status)
 	case "help":
-		PrintHelp()
+		core.PrintHelp()
 	default:
 		return
 	}
