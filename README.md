@@ -4,7 +4,7 @@ A simple, lightweight CLI tool for managing tasks using JSON storage.
 
 ## 🚀 Overview
 
-`task-cli` lets you add, update, delete, and track tasks directly from the terminal.  
+`taskcli` lets you add, update, delete, and track tasks directly from the terminal.  
 All data is stored locally in a readable `tasks.json` file — no setup or dependencies needed.
 
 ## ✨ Features
@@ -39,7 +39,7 @@ task-cli list in-progress
 ## 📦 Install
 For the installation to work, make sure you have Go installed on your machine, then just run in the cmd:
 ```bash
-go install github.com/TheDevAnthony/task-tracker/cmd/task-cli@latest
+go install github.com/TheDevAnthony/task-tracker/v2/cmd/taskcli@latest
 ```
 <hr>
 This project is actually my solution for the <a href="https://roadmap.sh/projects/task-tracker">Backend Roadmap - Task Tracker Project</a>
