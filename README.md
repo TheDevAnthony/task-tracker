@@ -26,13 +26,13 @@ task-cli delete 1
 #### Change task status
 ```bash
 task-cli mark-in-progress 1
-task-cli mark-done 1
+task-cli mark-completed 1
 ```
 #### List tasks
 ```bash
 task-cli list
-task-cli list done
-task-cli list todo
+task-cli list completed
+task-cli list pending
 task-cli list in-progress
 ```
 
