@@ -10,7 +10,7 @@ All data is stored locally in a readable `tasks.json` file — no setup or depen
 ## ✨ Features
 
 - Add, update, and delete tasks  
-- Mark tasks as **todo**, **in-progress**, or **done**  
+- Mark tasks as **in-progress** or **completed**  
 - List all tasks or filter by status  
 - JSON file persistence  
 - Pure Go, no external dependencies  
