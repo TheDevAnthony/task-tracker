@@ -36,7 +36,7 @@ task-cli list todo
 task-cli list in-progress
 ```
 
-## 📦 Install
+## 📦 Installation
 For the installation to work, make sure you have Go installed on your machine, then just run in the cmd:
 ```bash
 go install github.com/TheDevAnthony/task-tracker/v2/cmd/taskcli@latest
