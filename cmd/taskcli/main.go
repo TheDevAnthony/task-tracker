@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/TheDevAnthony/task-tracker/internal/core"
+	"github.com/TheDevAnthony/task-tracker/v2/internal/core"
 )
 
 func main() {
