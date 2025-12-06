@@ -19,21 +19,21 @@ All data is stored locally in a readable `tasks.json` file — no setup or depen
 
 #### Add, update and delete tasks
 ```bash
-task-cli add "Buy groceries"
-task-cli update 1 "Buy groceries and cook dinner"
-task-cli delete 1
+taskcli add "Buy groceries"
+taskcli update 1 "Buy groceries and cook dinner"
+taskcli delete 1
 ```
 #### Change task status
 ```bash
-task-cli mark-in-progress 1
-task-cli mark-completed 1
+taskcli mark-in-progress 1
+taskcli mark-completed 1
 ```
 #### List tasks
 ```bash
-task-cli list
-task-cli list completed
-task-cli list pending
-task-cli list in-progress
+taskcli list
+taskcli list completed
+taskcli list pending
+taskcli list in-progress
 ```
 
 ## 📦 Installation
